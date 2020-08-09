@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require_relative 'environment'
 require_relative 'agent'
 require_relative 'statistics'
 
 require 'numo/gsl'
 
+# Implementation of Q-Learning algorithm
 class QLearning
   def initialize
     @q_table = initialize_q_table(Environment::SIZE)
@@ -12,13 +15,13 @@ class QLearning
   end
 
   attr_reader :q_table, :statistics
-  
-  def train_episode(environment)
+
+  def train_episode(environment) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     cumulative_reward = 0
     done = false
     steps = 0
 
-    while !done
+    until done
       steps += 1
       old_observation = environment.observation
       action = determine_action(old_observation)
@@ -29,10 +32,10 @@ class QLearning
       current_q = q_table[old_observation][action]
 
       new_q = if reward == Environment::FOOD_REWARD
-        Environment::FOOD_REWARD
-      else
-        (1.0 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + DISCOUNT * max_future_q)
-      end
+                Environment::FOOD_REWARD
+              else
+                (1.0 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + DISCOUNT * max_future_q)
+              end
       q_table[old_observation][action] = new_q
 
       final_reward = reward
@@ -55,12 +58,12 @@ class QLearning
   end
 
   def load_q_table(path)
-    @q_table = Marshal.load(File.read(path))
+    @q_table = Marshal.load(File.read(path)) # rubocop:disable Security/MarshalLoad
   end
 
   private
 
-  def initialize_q_table(size)
+  def initialize_q_table(size) # rubocop:disable Metrics/MethodLength
     from = -size + 1
     to = size
 

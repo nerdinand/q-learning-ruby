@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../lib/environment'
 
 require 'numo/narray'
@@ -7,14 +9,14 @@ RSpec.describe Environment do
     srand(0)
   end
 
-  subject do 
+  subject do
     s = described_class.new
     s.reset
     s
   end
 
-  describe '#reset' do    
-    it "initializes the environment" do
+  describe '#reset' do
+    it 'initializes the environment' do
       expect(subject.player.position).to eq(Numo::NArray[5, 0])
       expect(subject.food.position).to eq(Numo::NArray[3, 3])
       expect(subject.enemy.position).to eq(Numo::NArray[7, 9])
@@ -41,13 +43,13 @@ RSpec.describe Environment do
       subject.step(6)
       subject.step(6)
       subject.step(6)
-      expect(subject.step(6)).to eq( [[4, 6, 0, 0], -300, true])
+      expect(subject.step(6)).to eq([[4, 6, 0, 0], -300, true])
     end
 
     it 'returns food reward and done' do
       subject.step(2)
       subject.step(2)
-      expect(subject.step(6)).to eq( [[0, 0, -4, -6], 25, true])
+      expect(subject.step(6)).to eq([[0, 0, -4, -6], 25, true])
     end
   end
 
@@ -55,19 +57,19 @@ RSpec.describe Environment do
     it 'returns a string representation of the environment' do
       expect(subject.to_s).to eq(
         [
-          "0",
-          "------------",
-          "|          |",
-          "|          |",
-          "|          |",
-          "|   O      |",
-          "|          |",
-          "|#         |",
-          "|          |",
-          "|         X|",
-          "|          |",
-          "|          |",
-          "------------"
+          '0',
+          '------------',
+          '|          |',
+          '|          |',
+          '|          |',
+          '|   O      |',
+          '|          |',
+          '|#         |',
+          '|          |',
+          '|         X|',
+          '|          |',
+          '|          |',
+          '------------'
         ].join("\n")
       )
     end

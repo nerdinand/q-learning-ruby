@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'environment'
 
+# Gathers and calculates statistics during training
 class Statistics
   def initialize
     @cumulative_rewards = []
@@ -14,22 +17,33 @@ class Statistics
   end
 
   def calculate(last_n_episodes)
-    @every_cumulative_rewards = cumulative_rewards[-last_n_episodes..-1] || []
-    @every_final_rewards = final_rewards[-last_n_episodes..-1] || []
-    @every_numbers_of_steps = numbers_of_steps[-last_n_episodes..-1] || []
+    @every_cumulative_rewards = cumulative_rewards[-last_n_episodes..] || []
+    @every_final_rewards = final_rewards[-last_n_episodes..] || []
+    @every_numbers_of_steps = numbers_of_steps[-last_n_episodes..] || []
   end
 
-  def to_s
-    "mean reward: #{every_cumulative_rewards.sum / every_cumulative_rewards.size.to_f}
+  def to_s # rubocop:disable Metrics/AbcSize
+    "mean reward: #{mean(every_cumulative_rewards)}
 max reward: #{every_cumulative_rewards.max}
 min reward: #{every_cumulative_rewards.min}
-mean number of steps: #{every_numbers_of_steps.sum / every_cumulative_rewards.size.to_f}
+mean number of steps: #{mean(every_numbers_of_steps)}
 max number of steps: #{every_numbers_of_steps.max}
 min number of steps: #{every_numbers_of_steps.min}
-win rate: #{every_final_rewards.count(Environment::FOOD_REWARD) / every_final_rewards.size.to_f}
-lose rate: #{every_final_rewards.count(Environment::ENEMY_REWARD) / every_final_rewards.size.to_f}
-timeout rate: #{every_final_rewards.count(Environment::MOVE_REWARD) / every_final_rewards.size.to_f}"
+win rate: #{rate(every_final_rewards, Environment::FOOD_REWARD)}
+lose rate: #{rate(every_final_rewards, Environment::ENEMY_REWARD)}
+timeout rate: #{rate(every_final_rewards, Environment::MOVE_REWARD)}"
   end
 
-  attr_reader :cumulative_rewards, :final_rewards, :numbers_of_steps, :every_cumulative_rewards, :every_final_rewards, :every_numbers_of_steps
+  attr_reader :cumulative_rewards, :final_rewards, :numbers_of_steps, :every_cumulative_rewards,
+              :every_final_rewards, :every_numbers_of_steps
+
+  private
+
+  def mean(array)
+    array.sum / array.size.to_f
+  end
+
+  def rate(array, occurence)
+    array.count(occurence) / array.size.to_f
+  end
 end

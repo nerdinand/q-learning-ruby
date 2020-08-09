@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../lib/agent'
 
 require 'numo/narray'
@@ -9,7 +11,7 @@ RSpec.describe Agent do
 
   subject { described_class.new(10) }
 
-  describe '#position' do    
+  describe '#position' do
     it "returns the agent's position" do
       expect(subject.position).to eq(Numo::NArray[5, 0])
     end
@@ -25,7 +27,6 @@ RSpec.describe Agent do
         expect(subject.position).to eq(Numo::NArray[6, 1])
       end
     end
-
 
     context 'action = 6' do
       let(:action) { 6 }
@@ -60,7 +61,7 @@ RSpec.describe Agent do
 
     context 'with x and y paramters' do
       it 'moves the agent by the given offset' do
-        subject.move(2, 2)
+        subject.move(x: 2, y: 2)
 
         expect(subject.position).to eq(Numo::NArray[7, 2])
       end
@@ -68,7 +69,7 @@ RSpec.describe Agent do
 
     context 'with x and y parameters that would move the agent off the board' do
       it "doesn't move the agent off the board" do
-        subject.move(-20, 20)
+        subject.move(x: -20, y: 20)
 
         expect(subject.position).to eq(Numo::NArray[0, 9])
       end

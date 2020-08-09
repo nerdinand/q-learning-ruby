@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require 'numo/narray'
 
+# Entity that acts in the Environment. Has x and y position and can move around.
 class Agent
   ACTION_COUNT = 9
 
@@ -13,46 +16,38 @@ class Agent
     Numo::NArray[@x, @y]
   end
 
-  def action(choice)
+  def action(choice) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
     case choice
     when 0
-      move(1, 1)
+      move(x: 1, y: 1)
     when 1
-      move(-1, -1)
+      move(x: -1, y: -1)
     when 2
-      move(-1, 1)
+      move(x: -1, y: 1)
     when 3
-      move(1, -1)
+      move(x: 1, y: -1)
 
     when 4
-      move(1, 0)
+      move(x: 1, y: 0)
     when 5
-      move(-1, 0)
+      move(x: -1, y: 0)
 
     when 6
-      move(0, 1)
+      move(x: 0, y: 1)
     when 7
-      move(0, -1)
+      move(x: 0, y: -1)
 
     when 8
-      move(0, 0)
+      move(x: 0, y: 0)
     end
   end
 
-  def move(x = false, y = false)
+  def move(x: false, y: false) # rubocop:disable Naming/MethodParameterName
     # If no value for x, move randomly
-    @x += if x
-      x
-    else
-      random_movement
-    end
+    @x += x || random_movement
 
     # If no value for y, move randomly
-    @y += if y
-      y
-    else
-      random_movement
-    end
+    @y += y || random_movement
 
     # If we are out of bounds, fix!
     @x = @x.clamp(0, @size - 1)
