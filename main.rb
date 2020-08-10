@@ -6,8 +6,9 @@ require_relative 'lib/environment'
 
 LEARNING_RATE = 0.1
 DISCOUNT = 0.95
-EPISODES = 150_000
-SHOW_EVERY = 1000
+EPISODES = 200_000
+SHOW_EVERY = 1_000
+PLAY_EVERY = 10_000
 
 INITIAL_EPSILON = 0.8 # closer to 0: more exploiting, closer to 1: more exploring
 EPSILON_DECAY_RATE = 0.9999 # decay epsilon by this amount every episode
@@ -58,7 +59,7 @@ begin
       Curses.refresh
     end
 
-    show_example_play(q_learning, play_output_line_start) if (episode % 10_000).zero?
+    show_example_play(q_learning, play_output_line_start) if (episode % PLAY_EVERY).zero?
 
     q_learning.train_episode(environment)
   end
