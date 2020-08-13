@@ -22,6 +22,7 @@ class Environment
     @enemy = Agent.new(SIZE) while @enemy.position == @player.position || @enemy.position == @food.position
 
     @episode_step = 0
+    observation
   end
 
   def observation

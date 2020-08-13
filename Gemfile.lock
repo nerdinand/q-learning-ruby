@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/ankane/torch.rb.git
+  revision: f2f4cba0dbf7fb0f2514c76d29944a3a35252c27
+  specs:
+    torch-rb (0.3.0)
+      rice (>= 2.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -15,6 +22,7 @@ GEM
     rake (13.0.1)
     regexp_parser (1.7.1)
     rexml (3.2.4)
+    rice (2.2.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -53,6 +61,7 @@ DEPENDENCIES
   rake (~> 13.0, >= 13.0.1)
   rspec (~> 3.9)
   rubocop (~> 0.89.0)
+  torch-rb!
 
 BUNDLED WITH
    2.1.4

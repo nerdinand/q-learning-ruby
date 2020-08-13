@@ -74,7 +74,7 @@ class QLearning
       from.upto(to).each do |y1|
         from.upto(to).each do |x2|
           from.upto(to).each do |y2|
-            q_table[[x1, y1, x2, y2]] = rand.flat(-5, 0, Agent::ACTION_COUNT)
+            q_table[[x1, y1, x2, y2]] = rand.flat(-5, 0, Agent::ACTION_SPACE.size)
           end
         end
       end
@@ -87,7 +87,7 @@ class QLearning
     if rand > @epsilon
       q_table[observation].max_index # exploit
     else
-      rand(0...Agent::ACTION_COUNT) # explore
+      Agent::ACTION_SPACE.sample # explore
     end
   end
 end

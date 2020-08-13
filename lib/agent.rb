@@ -4,7 +4,7 @@ require 'numo/narray'
 
 # Entity that acts in the Environment. Has x and y position and can move around.
 class Agent
-  ACTION_COUNT = 9
+  ACTION_SPACE = (0..8).to_a
 
   def initialize(size)
     @size = size
